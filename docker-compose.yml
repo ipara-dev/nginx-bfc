@@ -1,0 +1,29 @@
+networks:
+  dev:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      # - "80:443" // for HTTPS
+
+    volumes:
+      - "./nginx.con:/etc/nginx/nginx.conf"
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - dev
+
+  backend:
+    build:
+      context: ./backend
+    networks:
+      - dev
+
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - dev
